@@ -89,7 +89,9 @@ app.post('/sms', function (req, res) {
   res.writeHead(200, { 'Content-Type':'text/xml' });
   res.end(resp.toString());
 
+
   textAdmin(`${fromNum} : ${response}`);
+  sendMsg(fromNum, response);
 
 });
 
