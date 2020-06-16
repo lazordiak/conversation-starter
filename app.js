@@ -78,7 +78,7 @@ app.post('/sms', function (req, res) {
   let stat = randStat.text
   let source = randStat.source;
   console.log(`>>> We found a random stat:\n${stat}\n>>> with source
-    \n${source}\n`)
+    \n${source}`)
 
   // Make a new message out of them and append it to our response.
   let response = `${stat}
@@ -120,7 +120,7 @@ function textAdmin(msg) {
   let options = {
     to: adminNum,
     from: appNum,
-    body: msg
+    body: `TO ADMIN: ${msg}`
   }
 
   client.messages.create(options, function( err, data ) {
