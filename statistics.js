@@ -31,7 +31,7 @@ const statistics = [
         tags: [ "infant mortality" ]
       },
       {
-        stat:"An African American born today can, on average, expect to live about 3.5 fewer years than a white person born on the same day.",
+        text:"An African American born today can, on average, expect to live about 3.5 fewer years than a white person born on the same day.",
         source:"https://www.epi.org/publication/50-years-after-the-kerner-commission/#_note11",
         tags: [ "life expectancy" ]
       }
