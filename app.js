@@ -88,7 +88,7 @@ app.post('/sms', function (req, res) {
   let response = `${stat}
   ${source}`
   sendMsg(fromNum, response);
-  textAdmin(fromNum + msg);
+  textAdmin(`${fromNum} : ${response}`);
   resp.message(response);
 
   // Format and send the message to the number recieved
