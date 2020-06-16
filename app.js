@@ -61,7 +61,7 @@ app.post('/sms', function (req, res) {
 
   // Get the SMS message text
   let msg = req.body.Body;
-  console.log(`>>> SMS Received from: ${fromNum}\n>>> Message:\n${msg}`);
+  console.log(`SMS Received from: >>> ${fromNum}\nMessage:\n>>> ${msg}`);
 
   // Make a new variable to respond with
   let resp = new MessagingResponse();
@@ -70,15 +70,14 @@ app.post('/sms', function (req, res) {
   let stats = statistics;
   // Find a random category
   let randCat = stats[Math.floor(Math.random() * stats.length)];
-  console.log(`>>> Found a random category: ${randCat.category}`)
+  console.log(`Found a random category: >>> ${randCat.category}`)
   // Pull a random entry from a category
   let data = randCat.data;
   let randStat = data[Math.floor(Math.random() * data.length)]
   // And get the stat itself and the source
   let stat = randStat.text
   let source = randStat.source;
-  console.log(`>>> We found a random stat:\n${stat}\n>>> with source
-    \n${source}`)
+  console.log(`Found a random stat:\n>>> ${stat}\nwith source\n>>> ${source}`)
 
   // Make a new message out of them and append it to our response.
   let response = `${stat}
@@ -109,7 +108,7 @@ function sendMsg(toNum, msg) {
         ${data.body}`);
     }
 
-    console.log(`>>> SMS sent to ${toNum}\n${data.body}`)
+    console.log(`SMS sent to ${toNum}\n>>> ${data.body}`)
 
   });
 }
@@ -126,10 +125,10 @@ function textAdmin(msg) {
   client.messages.create(options, function( err, data ) {
 
     if (err) {
-      console.log(`There was an error texting Admin: ${err}`);
+      console.log(`*********There was an error texting Admin: ${err}`);
     }
 
-    console.log(`>>> SMS sent to Admin ${adminNum}\n${msg}`);
+    console.log(`SMS sent to Admin ${adminNum}\n>>> ${msg}`);
 
   });
 }
