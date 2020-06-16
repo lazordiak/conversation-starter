@@ -83,7 +83,7 @@ app.post('/sms', function (req, res) {
   // Make a new message out of them and append it to our response.
   let response = `${stat}
   ${source}`
-  sendMsg(fromNum, response);
+  // sendMsg(fromNum, response);
   textAdmin(`${fromNum} : ${response}`);
   resp.message(response);
 
