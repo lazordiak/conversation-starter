@@ -61,7 +61,7 @@ app.post('/sms', function (req, res) {
 
   // Get the SMS message text
   let msg = req.body.Body;
-  console.log(`>>> SMS Received from:${fromNum}\n>>> Message: ${msg}`);
+  console.log(`>>> SMS Received from: ${fromNum}\n>>> Message:\n${msg}`);
 
   // Make a new variable to respond with
   let resp = new MessagingResponse();
@@ -77,12 +77,8 @@ app.post('/sms', function (req, res) {
   // And get the stat itself and the source
   let stat = randStat.text
   let source = randStat.source;
-  console.log(`
-    >>> We found a random stat:
-    ${stat}
-    >>> with source
-    ${source}
-    `)
+  console.log(`>>> We found a random stat:\n${stat}\n>>> with source
+    \n${source}\n`)
 
   // Make a new message out of them and append it to our response.
   let response = `${stat}
@@ -113,7 +109,7 @@ function sendMsg(toNum, msg) {
         ${data.body}`);
     }
 
-    console.log(`SMS sent to ${toNum}\n${data.body}`)
+    console.log(`>>> SMS sent to ${toNum}\n${data.body}`)
 
   });
 }
@@ -129,9 +125,11 @@ function textAdmin(msg) {
 
   client.messages.create(options, function( err, data ) {
 
-    if (err) console.log(`There was an error texting Admin: ${err}`);
+    if (err) {
+      console.log(`There was an error texting Admin: ${err}`);
+    }
 
-    console.log(`--------------\nSent Admin this msg:\n${msg}`);
+    console.log(`>>> SMS sent to Admin ${adminNum}\n${msg}`);
 
   });
 }
