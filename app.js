@@ -61,7 +61,7 @@ app.post('/sms', function (req, res) {
 
   // Get the SMS message text
   let msg = req.body.Body;
-  console.log(`SMS Received from: >>> ${fromNum}\nMessage:\n>>> ${msg}`);
+  console.log(`SMS Received from: ${fromNum}\nMessage: ${msg}`);
 
   // Make a new variable to respond with
   let resp = new MessagingResponse();
@@ -70,25 +70,26 @@ app.post('/sms', function (req, res) {
   let stats = statistics;
   // Find a random category
   let randCat = stats[Math.floor(Math.random() * stats.length)];
-  console.log(`Found a random category: >>> ${randCat.category}`)
+  console.log(`Found a random category:\n>>> ${randCat.category}`)
   // Pull a random entry from a category
   let data = randCat.data;
   let randStat = data[Math.floor(Math.random() * data.length)]
   // And get the stat itself and the source
   let stat = randStat.text
   let source = randStat.source;
-  console.log(`Found a random stat:\n>>> ${stat}\nwith source\n>>> ${source}`)
+  console.log(`Found a random stat:\n>>> ${stat}`)
+  console.log(`with source\n>>> ${source}`)
 
   // Make a new message out of them and append it to our response.
   let response = `${stat}
   ${source}`
-  // sendMsg(fromNum, response);
-  textAdmin(`${fromNum} : ${response}`);
   resp.message(response);
-
+  console.log(`HTML Response: ${response}`)
   // Format and send the message to the number recieved
   res.writeHead(200, { 'Content-Type':'text/xml' });
   res.end(resp.toString());
+
+  textAdmin(`${fromNum} : ${response}`);
 
 });
 
@@ -108,7 +109,7 @@ function sendMsg(toNum, msg) {
         ${data.body}`);
     }
 
-    console.log(`SMS sent to ${toNum}\n>>> ${data.body}`)
+    console.log(`SMS sent to ${toNum}\n${data.body}`)
 
   });
 }
