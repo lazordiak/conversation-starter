@@ -43,7 +43,7 @@ let client = new twilio(
 // Our webhook object for sending SMS via an HTML response
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-// To handle incoming HTTP requests at the address set in our Twilio Dashboard
+// To handle incoming HTTP requests at the address set in our Twilio Dashboard > Phone Numbers > +1######## > Message, "A Message Comes In", Webhook <http://e61360cb536a.ngrok.io/sms>
 const express = require('express');
 bodyParser = require('body-parser');
 const app = express();
@@ -95,7 +95,7 @@ app.post('/sms', function (req, res) {
 
     if (match) {
       stat = match.text;
-      source = match.source;
+      source = ` // source: ${match.source}`;
     // If we can't find a match...
     } else {
       stat = "Thanks for texting Conversation Starter.  It appears we don't have information on that issue at this time, but you can slip us your own facts via DM: https://twitter.com/conv_starter";
@@ -104,7 +104,7 @@ app.post('/sms', function (req, res) {
   }
 
   // Make a new message and append it to our response.
-  let response = `${stat} // source: ${source}`
+  let response = `${stat}${source}`
   resp.message(response);
   console.log(`HTML Response: ${response}`)
   // Format and send the message to the number recieved
