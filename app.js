@@ -111,8 +111,9 @@ app.post('/sms', function (req, res) {
   res.writeHead(200, { 'Content-Type':'text/xml' });
   res.end(resp.toString());
 
-  textAdmin(`${fromNum} : ${msg}
-    Responding with: ${response}`);
+  // Send the admin number a message to monitor activity
+  let toAdmin = `Text from ${fromNum}: \"${msg}\"\nResponding with: ${response}`
+  textAdmin(toAdmin);
 
 });
 
@@ -123,7 +124,7 @@ function textAdmin(msg) {
   let options = {
     to: adminNum,
     from: appNum,
-    body: `TO ADMIN: ${msg}`
+    body: msg
   }
 
   client.messages.create(options, function( err, data ) {
