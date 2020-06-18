@@ -24,7 +24,7 @@ Welcome to Conversation Starter!
 const { adminMessages } = require('./admin-messages');
 const { statistics } = require('./statistics');
 // Import RiTa for parsing the keywords
-const RiTa = require('RiTa')
+const RiTa = require('rita')
 // Import dotenv to use our .env file
 require('dotenv').config();
 // Import the Twilio API
