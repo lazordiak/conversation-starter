@@ -34,6 +34,7 @@ let twilio = require('twilio');
 const adminNum = process.env.ADMIN_NUMBER;
 const appNum = process.env.TWILIO_NUMBER;
 const port = process.env.PORT;
+const notifyAdmin = process.env.NOTIFY_ADMIN;
 
 let client = new twilio(
   process.env.ACCOUNT_SID,
@@ -111,9 +112,11 @@ app.post('/sms', function (req, res) {
   res.writeHead(200, { 'Content-Type':'text/xml' });
   res.end(resp.toString());
 
-  // Send the admin number a message to monitor activity
-  let toAdmin = `Text from ${fromNum}: \"${msg}\"\nResponding with: ${response}`
-  textAdmin(toAdmin);
+  if (notifyAdmin == true) {
+    // Send the admin number a message to monitor activity
+    let toAdmin = `Text from ${fromNum}: \"${msg}\"\nResponding with: ${response}`
+    textAdmin(toAdmin);
+  }
 
 });
 
