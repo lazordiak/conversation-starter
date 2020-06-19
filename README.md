@@ -1,7 +1,7 @@
 # conversation-starter
 An interactive app to facilitate difficult conversations with family surrounding the racial justice movement.
 
-Clone the repo, cd to the directory and do `npm install` to install the necessary dependencies.  
+Installation via Terminal >>> Clone the repo, cd do the directory and do `npm install` to install the necessary dependencies.  
 
 You'll either need to run this on a server that is exposed to the web or use `ngrok` to expose your local computer.  Note the `Forwarding` address before the `->`. 
 
