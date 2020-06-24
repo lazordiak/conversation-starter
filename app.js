@@ -12,14 +12,6 @@ Could also port the statistics page to Google Sheets for ease.
 
 */
 
-console.log(
-`
---------------------------------
-Welcome to Conversation Starter!
---------------------------------
-`
-);
-
 // Import in our admin messages
 const { adminMessages } = require('./admin-messages');
 const { statistics } = require('./statistics');
@@ -39,6 +31,17 @@ const notifyAdmin = process.env.NOTIFY_ADMIN;
 let client = new twilio(
   process.env.ACCOUNT_SID,
   process.env.AUTH_TOKEN
+);
+
+console.log(
+`
+--------------------------------
+Welcome to Conversation Starter!
+--------------------------------
+>>> App Number: ${appNum}
+>>> Admin Number: ${adminNum}
+--------------------------------
+`
 );
 
 // Our webhook object for sending SMS via an HTML response
