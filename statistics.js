@@ -63,7 +63,7 @@ const statistics = {
     },
     {
       category: "policing",
-      text:"Additionally, the rate of fatal police shootings among Black Americans was much higher than that for any other ethnicity, standing at 30 fatal shootings per million of the population as of June 2020.",
+      text:"The rate of fatal police shootings among Black Americans was much higher than that for any other ethnicity, standing at 30 fatal shootings per million of the population as of June 2020.",
       source:"https://www.statista.com/statistics/585152/people-shot-to-death-by-us-police-by-race/#:~:text=Additionally%2C%20the%20rate%20of%20fatal,as%20of%20June%202020",
       tags: ["policing", "over-policing", "bias", "discrimination", "inequity", "inequality", "shooting", "shootings", "fatal shooting", "fatal shootings", "police violence", "violence"]
     },

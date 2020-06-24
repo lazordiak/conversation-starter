@@ -88,8 +88,7 @@ app.post('/sms', function (req, res) {
   // If the user texts "random", then we do the following
   if (firstWord == 'random') {
     let rand = getRandomStat();
-    stat = rand[0];
-    source = rand[1];
+    [stat, source] = rand;
   // Otherwise we parse their message and return a relevant response
   } else {
     // Get the keywords (noun(s) & adjectives) from the text using RiTa
