@@ -8,12 +8,6 @@ const statistics = {
       tags: []
     },
     {
-      category: "",
-      text:"",
-      source:"",
-      tags: []
-    },
-    {
       category: "poverty",
       text:"But black workers still make only 82.5 cents on every dollar earned by white workers, African Americans are 2.5 times as likely to be in poverty as whites, and the median white family has almost 10 times as much wealth as the median black family.",
       source:"https://www.epi.org/publication/50-years-after-the-kerner-commission/#:~:text=But%20black%20workers,%20median%20black%20family",
