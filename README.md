@@ -7,6 +7,9 @@ My goal for this project is to see if we can make that horse thirsty.
 By sharing events or pieces of information that changed our minds or galvanized us towards a more just world, we can offer this same understanding to those we love.  This could also mean sharing a moving story, either our own or someone else’s, or sharing a compelling piece of data that plainly illustrates widespread injustice.
 
 # Installation 
+
+Working on a beginner's intro, but for those familiar with command line, Node.js, and Twilio:
+
 Via Terminal >>> Clone the repo, cd do the directory and do `npm install` to install the necessary dependencies.  
 
 You can run this on a server that is exposed to the web or use `ngrok` to expose your local computer by doing `ngrok http 3001` and note the `Forwarding` address `http://************.ngrok.io/sms`. 
