@@ -1,5 +1,5 @@
 # conversation-starter
-An interactive app to facilitate difficult conversations with family surrounding the racial justice movement.
+An interactive app to facilitate difficult conversations with those we love surrounding the racial justice movement.
 
 Installation via Terminal >>> Clone the repo, cd do the directory and do `npm install` to install the necessary dependencies.  
 
