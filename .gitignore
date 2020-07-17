@@ -3,6 +3,9 @@ misc/
 
 # Javascript Files
 
+# Mac files
+.DS_Store
+
 
 #Users Database
 users.db
