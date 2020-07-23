@@ -2,19 +2,17 @@
 
 June 2020
 
-Built in cooperation with Tech & Society and The Coding Lab at NYU's ITP program.
+Built by Billy Bennett in cooperation with Tech & Society and The Coding Lab at NYU's ITP program.
 
 The Rita.js portion is adapted from Allison Parrish's tutorial:
 https://creative-coding.decontextualize.com/intro-to-ritajs/
-
-Do we need Firebase to store our users or any data?
-Could also port the statistics page to Google Sheets for ease.
 
 */
 
 // Import in our admin messages
 const { adminMessages } = require('./admin-messages');
-const { statistics } = require('./statistics');
+// Getting our stats now from a Google Sheet
+const { sheet, searchSheet, getRandom } = require('./googlesheetsapi');
 // Import RiTa for parsing the keywords
 const RiTa = require('rita')
 // Import dotenv to use our .env file
@@ -63,7 +61,7 @@ app.get('/', (req, res) => {
 
 // To Init our server and port and print to the console.
 let server = app.listen(port, function() {
-  console.log('Listening on port %d', server.address().port);
+  console.log('Listening on port %d...\n\n', server.address().port);
 });
 
 // When an SMS message is received, parse it
@@ -87,14 +85,14 @@ app.post('/sms', function (req, res) {
 
   // If the user texts "random", then we do the following
   if (firstWord == 'random') {
-    let rand = getRandomStat();
+    let rand = getRandom();
     [stat, source] = rand;
   // Otherwise we parse their message and return a relevant response
   } else {
     // Get the keywords (noun(s) & adjectives) from the text using RiTa
     let keywords = getKeywords(msg);
     // Find the matches in the data and return a random one
-    let match = random(matchSearch(keywords));
+    let match = random(searchSheet(keywords));
 
     if (match) {
       stat = match.text;
@@ -171,70 +169,6 @@ function getKeywords(str){
   // console.log(`Keywords: ${keywords}`)
   return keywords
 
-}
-
-function matchSearch(words) {
-
-  // To store our matches
-  var matches = []
-
-  // For each of the words in the msg
-  for (word of words) {
-    // console.log(word);
-
-    // Check the stats for tags
-    for (var k of statistics.data) {
-      let tags = k.tags;
-      // console.log(word, tags);
-
-      // Check each tag to see if it's a match with our word
-      for (tag of tags) {
-
-        // if it is a match, store the matched object in an array
-        if (word == tag) {
-        // console.log(k.text)
-
-          // Return the text from that matched object
-          if (!matches.find(e => e == k.text)) {
-              // console.log("new item found")
-              matches.push({
-                text: k.text,
-                source: k.source,
-              })
-          }
-        }
-      }
-    }
-  }
-
-  return matches
-
-}
-
-// To get a random conversation starter
-function getRandom() {
-
-  console.log(`Getting random stat and source...`)
-
-  // Get the stats from admin-messages.js
-  let stats = statistics;
-
-  // Find a random category
-  let randCat = stats[Math.floor(Math.random() * stats.length)];
-  // console.log(`Found a random category:\n>>> ${randCat.category}`)
-
-  // Pull a random entry from a category
-  let data = randCat.data;
-  let randStat = data[Math.floor(Math.random() * data.length)]
-
-  // And get the stat itself and the source
-  let stat = randStat.text
-  let source = randStat.source;
-
-  console.log(`Found a random stat:\n>>> ${stat}`)
-  console.log(`with source\n>>> ${source}`)
-
-  return [stat, source]
 }
 
 // A Helper function
