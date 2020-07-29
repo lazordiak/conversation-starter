@@ -87,18 +87,20 @@ app.post('/sms', function (req, res) {
 
   // If the user texts "random", then we do the following
   if (firstWord == 'random') {
-    let rand = getRandomStat();
+    let rand = getRandom(statistics);
     [stat, source] = rand;
   // Otherwise we parse their message and return a relevant response
   } else {
+    const matches = wordMatches(msgTrim,statistics)
     // Get the keywords (noun(s) & adjectives) from the text using RiTa
-    let keywords = getKeywords(msg);
+    //let keywords = getKeywords(msg);
     // Find the matches in the data and return a random one
-    let match = random(matchSearch(keywords));
+    //let match = random(matchSearch(keywords));
 
-    if (match) {
-      stat = match.text;
-      source = ` // source: ${match.source}`;
+    if (matches) {
+      [stat, source] = getRandom(matches);
+      //stat = match.text;
+      source = ` // source: ${source}`;
     // If we can't find a match...
     } else {
       stat = "Thanks for texting Conversation Starter.  It appears we don't have information on that issue at this time, but you can slip us your own facts via DM: https://twitter.com/conv_starter";
@@ -106,22 +108,47 @@ app.post('/sms', function (req, res) {
     }
   }
 
-  // Make a new message and append it to our response.
-  let response = `${stat}${source}`
-  resp.message(response);
-  console.log(`HTML Response: ${response}`)
-  // Format and send the message to the number recieved
-  res.writeHead(200, { 'Content-Type':'text/xml' });
-  res.end(resp.toString());
-
-  if (notifyAdmin == true) {
-    // Send the admin number a message to monitor activity
-    let toAdmin = `Text from ${fromNum}: \"${msg}\"\nResponding with: ${response}`
-    textAdmin(toAdmin);
-  }
-
+    // Make a new message and append it to our response.
+    let response = `${stat}${source}`
+    resp.message(response);
+    console.log(`HTML Response: ${response}`)
+    // Format and send the message to the number recieved
+    res.writeHead(200, { 'Content-Type':'text/xml' });
+    res.end(resp.toString());
+  
+    if (notifyAdmin == true) {
+      // Send the admin number a message to monitor activity
+      let toAdmin = `Text from ${fromNum}: \"${msg}\"\nResponding with: ${response}`
+      textAdmin(toAdmin);
+    }
+  
 });
 
+function wordMatches(str,stats) {
+    //to hold matches
+    const matches = [];
+    for (let i=0; i<stats.data.length; i++) {
+        for (let j=0; j<stats.data[i].tags.length; j++) {
+            if (str.includes(stats.data[i].tags[j])) {
+              console.log(stats.data[i].tags[j])
+                matches.push({
+                    text: stats.data[i].text,
+                    source: stats.data[i].source
+                });
+            }
+        }
+    }
+    //removing any possible duplicates;
+    const dupeSet = new Set(matches.map(e => JSON.stringify(e)));
+    vettedSet = Array.from(dupeSet).map(e => JSON.parse(e));
+
+    return vettedSet;
+}
+
+function getRandom(array) {
+    randItem = array.data ? array.data[Math.floor(Math.random()*array.length)] : array[Math.floor(Math.random()*array.length)];
+    return [randItem.text,randItem.source];
+}
 
 // A function to text the administrator to monitor activity
 function textAdmin(msg) {
@@ -143,6 +170,7 @@ function textAdmin(msg) {
   });
 }
 
+/*
 // Getting the keywords from the SMS message using RiTa
 function getKeywords(str){
 
@@ -242,3 +270,4 @@ function random(array) {
   rand = array[Math.floor(Math.random() * array.length)]
   return rand
 }
+*/
