@@ -124,23 +124,79 @@ app.post('/sms', function (req, res) {
   
 });
 
+function getIndicesOf(searchStr, str, caseSensitive) {
+  var searchStrLen = searchStr.length;
+  if (searchStrLen == 0) {
+      return [];
+  }
+  var startIndex = 0, index, indices = [];
+  if (!caseSensitive) {
+      str = str.toLowerCase();
+      searchStr = searchStr.toLowerCase();
+  }
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+      indices.push(index);
+      startIndex = index + searchStrLen;
+  }
+  return indices;
+}
+
+//what we need to match for:
+/*
+need to check for EVERY OCCURRENCE that
+characters before and after the word are whitespace or 
+it is the beginning or end of a string 
+
+so could i... id need the match and the location.
+what you can do is consistently increase the index you're searching in
+*/
 function wordMatches(str,stats) {
     //to hold matches
     const matches = [];
     for (let i=0; i<stats.data.length; i++) {
         for (let j=0; j<stats.data[i].tags.length; j++) {
-            if (str.includes(stats.data[i].tags[j])) {
+          //so now we call getIndicesOf on the string
+          let indices = getIndicesOf(stats.data[i].tags[j],str);
+          for (let k=0; k<indices.length; k++) {
+            //if the spaces around are whitespace OR
+            if ((str.substring(indices[k]-1,indices[k]) == " ") && 
+              (str.substring(indices[k]+stats.data[i].tags[j].length,indices[k]+stats.data[i].tags[j].length+1) == " ")) {
+                console.log(stats.data[i].tags[j])
+                matches.push({
+                    text: stats.data[i].text,
+                    source: stats.data[i].source
+                });
+              } else if (indices[k] == 0) {
+                //the space before is outside bounds OR 
+                console.log(stats.data[i].tags[j])
+                matches.push({
+                  text: stats.data[i].text,
+                  source: stats.data[i].source
+                });
+              } else if (indices[k]+stats.data[i].tags[j].length >= str.length) {
+                //the space after is outside bounds
+                console.log(stats.data[i].tags[j])
+                matches.push({
+                  text: stats.data[i].text,
+                  source: stats.data[i].source
+                });
+              }
+            //the space after is outside bounds, its ok
+          }
+            /*if (str.includes(stats.data[i].tags[j])) {
               console.log(stats.data[i].tags[j])
                 matches.push({
                     text: stats.data[i].text,
                     source: stats.data[i].source
                 });
-            }
+            }*/
         }
     }
     //removing any possible duplicates;
     const dupeSet = new Set(matches.map(e => JSON.stringify(e)));
     vettedSet = Array.from(dupeSet).map(e => JSON.parse(e));
+
+    console.log(vettedSet);
 
     return vettedSet;
 }
